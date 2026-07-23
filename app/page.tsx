@@ -1,11 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-// Dynamic imports for heavy components
+// Dynamic imports
 const CoverPage = dynamic(() => import("@/components/CoverPage"), { ssr: false });
 const CinematicTransition = dynamic(() => import("@/components/CinematicTransition"), { ssr: false });
 const StickyNav = dynamic(() => import("@/components/StickyNav"), { ssr: false });
@@ -16,7 +15,6 @@ const CountdownSection = dynamic(() => import("@/components/CountdownSection"), 
 const EventSection = dynamic(() => import("@/components/EventSection"), { ssr: false });
 const LoveStorySection = dynamic(() => import("@/components/LoveStorySection"), { ssr: false });
 const GallerySection = dynamic(() => import("@/components/GallerySection"), { ssr: false });
-
 const WishesSection = dynamic(() => import("@/components/WishesSection"), { ssr: false });
 const GiftSection = dynamic(() => import("@/components/GiftSection"), { ssr: false });
 const ClosingSection = dynamic(() => import("@/components/ClosingSection"), { ssr: false });
@@ -26,40 +24,48 @@ const FloatingParticles = dynamic(() => import("@/components/FloatingParticles")
 export default function WeddingPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [showTransition, setShowTransition] = useState(false);
-  const [transitionDone, setTransitionDone] = useState(false);
+  const [playMusic, setPlayMusic] = useState(false);
   const [guestName, setGuestName] = useState("Tamu Undangan");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const name = params.get("to") || params.get("name") || "";
-      if (name) setGuestName(decodeURIComponent(name));
-    }
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("to") || params.get("name") || "";
+    if (name) setGuestName(decodeURIComponent(name));
   }, []);
 
   const handleOpen = useCallback(() => {
+    // Mulai musik saat tombol diklik
+    setPlayMusic(true);
+
     setShowTransition(true);
+
     setTimeout(() => {
       setIsOpen(true);
+
       setTimeout(() => {
         setShowTransition(false);
-        setTransitionDone(true);
       }, 3200);
+
     }, 400);
   }, []);
 
   return (
     <>
+      {/* Music Player selalu dirender */}
+      <MusicPlayer autoPlay={playMusic} />
+
       <AnimatePresence mode="wait">
         {!isOpen && !showTransition && (
-          <CoverPage key="cover" guestName={guestName} onOpen={handleOpen} />
+          <CoverPage
+            key="cover"
+            guestName={guestName}
+            onOpen={handleOpen}
+          />
         )}
       </AnimatePresence>
 
       <AnimatePresence>
-        {showTransition && (
-          <CinematicTransition key="transition" />
-        )}
+        {showTransition && <CinematicTransition key="transition" />}
       </AnimatePresence>
 
       <AnimatePresence>
@@ -80,11 +86,9 @@ export default function WeddingPage() {
             <EventSection />
             <LoveStorySection />
             <GallerySection />
-
             <WishesSection />
             <GiftSection />
             <ClosingSection />
-            <MusicPlayer autoPlay={transitionDone} />
           </motion.div>
         )}
       </AnimatePresence>
