@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-const sectionVariants = {
+import { Variants } from "framer-motion";
+
+const sectionVariants: Variants = {
     hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
+    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
 };
 
 export default function OpeningSection() {
