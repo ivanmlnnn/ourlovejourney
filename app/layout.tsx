@@ -17,11 +17,21 @@ export const metadata: Metadata = {
     title: "Undangan Pernikahan Rizky & Ika",
     description: "31 Juli 2026 | Kp. Pondok Soga, Bekasi",
     type: "website",
+    url: "https://ourlovejourney-theta.vercel.app",
+    images: [
+      {
+        url: "https://ourlovejourney-theta.vercel.app/photo-couple-2.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Undangan Pernikahan Rizky & Ika",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Undangan Pernikahan Rizky & Ika",
     description: "31 Juli 2026 | Kp. Pondok Soga, Bekasi",
+    images: ["https://ourlovejourney-theta.vercel.app/photo-couple-2.jpg"],
   },
   robots: {
     index: true,
