@@ -20,8 +20,10 @@ export default function MusicPlayer({ autoPlay }: { autoPlay: boolean }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-    }, []);
+    if (!autoPlay) return;
+
+    setPlaying(true);
+}, [autoPlay]);
 
     useEffect(() => {
         if (audioRef.current) {
